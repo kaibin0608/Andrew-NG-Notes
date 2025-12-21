@@ -77,27 +77,35 @@ Here are the course summary as its given on the course [link](https://www.course
 
 ### What is a (Neural Network) NN?
 
+![alt text](image.png)
+
 - Single neuron == linear regression
+- stacking single neuron (linear regression) we will get neural network
 - Simple NN graph:
-  - ![](https://raw.githubusercontent.com/ashishpatel26/DeepLearning.ai-Summary/master/1-%20Neural%20Networks%20and%20Deep%20Learning/Images//Others/01.jpg)
-  - Image taken from [tutorialspoint.com](tutorialspoint.com)
-- RELU stands for rectified linear unit is the most popular activation function right now that makes deep NNs train faster now.
+  - ![alt text](image-1.png)
+- RELU stands for **rectified linear unit** is the most popular activation function right now that makes deep NNs train faster now.(rectified means take the max as 0)
 - Hidden layers predicts connection between inputs automatically, thats what deep learning is good at.
 - Deep NN consists of more hidden layers (Deeper layers)
-  - ![](https://raw.githubusercontent.com/ashishpatel26/DeepLearning.ai-Summary/master/1-%20Neural%20Networks%20and%20Deep%20Learning/Images//Others/02.png)
-  - Image taken from [opennn.net](opennn.net)
+  - ![alt text](image-2.png)
 - Each Input will be connected to the hidden layer and the NN will decide the connections.
 - Supervised learning means we have the (X,Y) and we need to get the function that maps X to Y.
 
 ### Supervised learning with neural networks
+
+![alt text](image-3.png)
+
+![alt text](image-4.png)
 
 - Different types of neural networks for supervised learning which includes:
   - CNN or convolutional neural networks (Useful in computer vision)
   - RNN or Recurrent neural networks (Useful in Speech recognition or NLP)
   - Standard NN (Useful for Structured data)
   - Hybrid/custom NN or a Collection of NNs types
+
+![alt text](image-5.png)
+
 - Structured data is like the databases and tables.
-- Unstructured data is like https://raw.githubusercontent.com/ashishpatel26/DeepLearning.ai-Summary/master/1-%20Neural%20Networks%20and%20Deep%20Learning/Images/, video, audio, and text.
+- Unstructured data is like video, audio, and text.
 - Structured data gives more money because companies relies on prediction on its big data.
 
 ### Why is deep learning taking off?
@@ -105,7 +113,7 @@ Here are the course summary as its given on the course [link](https://www.course
 - Deep learning is taking off for 3 reasons:
   1. Data:
      - Using this image we can conclude:
-       - ![](https://raw.githubusercontent.com/ashishpatel26/DeepLearning.ai-Summary/master/1-%20Neural%20Networks%20and%20Deep%20Learning/Images//11.png)
+       - ![alt text](image-7.png)
      - For small data NN can perform as Linear regression or SVM (Support vector machine)
      - For big data a small NN is better that SVM
      - For big data a big NN is better that a medium NN is better that small NN.
@@ -119,7 +127,7 @@ Here are the course summary as its given on the course [link](https://www.course
      - ASICs
   3. Algorithm:
      1. Creative algorithms has appeared that changed the way NN works.
-        - For example using RELU function is so much better than using SIGMOID function in training a NN because it helps with the vanishing gradient problem.
+        - For example using RELU function is so much better than using SIGMOID function in training a NN because it helps with the vanishing gradient problem. (SIGMOID is much slower, because the area that gradient that is nearly 0, will change the parameters very slowly in the gradient decent)
 
   
 
