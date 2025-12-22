@@ -127,7 +127,7 @@ Here are the course summary as its given on the course [link](https://www.course
      - ASICs
   3. Algorithm:
      1. Creative algorithms has appeared that changed the way NN works.
-        - For example using RELU function is so much better than using SIGMOID function in training a NN because it helps with the vanishing gradient problem. (SIGMOID is much slower, because the area that gradient that is nearly 0, will change the parameters very slowly in the gradient decent)
+        - For example using RELU function is so much better than using SIGMOID function in training a NN because it helps with the vanishing gradient problem. (SIGMOID is much slower, because the area that gradient that is nearly 0, will change the parameters very slowly in the gradient)
 
   
 
@@ -137,9 +137,15 @@ Here are the course summary as its given on the course [link](https://www.course
 
 ### Binary classification
 
+![alt text](image-6.png)
+
+This is how picture stores in a computer, 3 matrices that corresponds to red, blue, and green colour of this image.
+
+To turn these pixel intensity value into a feature vector,we need to unroll all the values into feature vector X, means flatten all the values into a single  $1 \times n$ vector.
+
 - Mainly he is talking about how to do a logistic regression to make a binary classifier.
-  - ![log](https://raw.githubusercontent.com/ashishpatel26/DeepLearning.ai-Summary/master/1-%20Neural%20Networks%20and%20Deep%20Learning/Images//Others/03.png)
-  - Image taken from [3.bp.blogspot.com](http://3.bp.blogspot.com)
+  - ![alt text](image-8.png)
+  - ![alt text](image-9.png)
 - He talked about an example of knowing if the current image contains a cat or not.
 - Here are some notations:
   - `M is the number of training vectors`
@@ -154,12 +160,14 @@ Here are the course summary as its given on the course [link](https://www.course
 
 ### Logistic regression
 
+![alt text](image-10.png)
+
 - Algorithm is used for classification algorithm of 2 classes.
 - Equations:
-  - Simple equation:	`y = wx + b`
-  - If x is a vector: `y = w(transpose)x + b`
-  - If we need y to be in between 0 and 1 (probability): `y = sigmoid(w(transpose)x + b)`
-  - In some notations this might be used: `y = sigmoid(w(transpose)x)` 
+  - Simple equation:	$y = wx + b$
+  - If x is a vector: $y = w^T x + b$
+  - If we need y to be in between 0 and 1 (probability): $y = \sigma (w^T x + b)$
+  - In some notations this might be used: $y = \sigma (w^T x)$ 
     - While `b` is `w0` of `w` and we add `x0 = 1`. but we won't use this notation in the course (Andrew said that the first notation is better).
 - In binary classification `Y` has to be between `0` and `1`.
 - In the last equation `w` is a vector of `Nx` and `b` is a real number
