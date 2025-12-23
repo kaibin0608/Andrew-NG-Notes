@@ -175,25 +175,29 @@ To turn these pixel intensity value into a feature vector,we need to unroll all 
 ### Logistic regression cost function
 
 - First loss function would be the square root error:  `L(y',y) = 1/2 (y' - y)^2`
-  - But we won't use this notation because it leads us to optimization problem which is non convex, means it contains local optimum points.
+  - But we won't use this notation because it leads us to optimization problem which is non convex, means it contains multiple local optimum points.
 - This is the function that we will use: `L(y',y) = - (y*log(y') + (1-y)*log(1-y'))`
 - To explain the last function lets see:
-  - if `y = 1` ==> `L(y',1) = -log(y')`  ==> we want `y'` to be the largest   ==> `y`' biggest value is 1
+  - if `y = 1` ==> `L(y',1) = -log(y')`  ==> we want `y'` to be the largest   ==> `y`' biggest value is 1 (because we want lost function to be small)
   - if `y = 0` ==> `L(y',0) = -log(1-y')` ==> we want `1-y'` to be the largest ==> `y'` to be smaller as possible because it can only has 1 value.
-- Then the Cost function will be: `J(w,b) = (1/m) * Sum(L(y'[i],y[i]))`
+- Then the Cost function will be: 
+  $$ J(w,b) = \frac{1}{m}  \sum_{i=1} ^m (L(y'_i,y_i))$$
 - The loss function computes the error for a single training example; the cost function is the average of the loss functions of the entire training set.
 
 ### Gradient Descent
 
+![alt text](image-11.png)
+
 - We want to predict `w` and `b` that minimize the cost function.
 - Our cost function is convex.
 - First we initialize `w` and `b` to 0,0 or initialize them to a random value in the convex function and then try to improve the values the reach minimum value.
-- In Logistic regression people always use 0,0 instead of random.
+- In Logistic regression people always use (0,0) instead of random.
 - The gradient decent algorithm repeats: `w = w - alpha * dw`
   where alpha is the learning rate and `dw` is the derivative of `w` (Change to `w`) 
   The derivative is also the slope of `w`
-- Looks like greedy algorithms. the derivative give us the direction to improve our parameters.
+- Looks like greedy algorithms. the derivative give us the direction to improve our parameters. Will take a step of the steepest gradient
 
+![alt text](image-12.png)
 
 - The actual equations we will implement:
   - `w = w - alpha * d(J(w,b) / dw)`        (how much the function slopes in the w direction)
@@ -220,8 +224,8 @@ To turn these pixel intensity value into a feature vector,we need to unroll all 
 ### Computation graph
 
 - Its a graph that organizes the computation from left to right.
-  - ![](https://raw.githubusercontent.com/ashishpatel26/DeepLearning.ai-Summary/master/1-%20Neural%20Networks%20and%20Deep%20Learning/Images//02.png)
-
+  - ![alt text](image-13.png)
+  
 ### Derivatives with a Computation Graph
 
 - Calculus chain rule says:
