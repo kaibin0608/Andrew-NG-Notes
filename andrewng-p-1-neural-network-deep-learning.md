@@ -232,14 +232,17 @@ To turn these pixel intensity value into a feature vector,we need to unroll all 
   If `x -> y -> z`          (x effect y and y effects z)
   Then `d(z)/d(x) = d(z)/d(y) * d(y)/d(x)`
 - The video illustrates a big example.
-  - ![](https://raw.githubusercontent.com/ashishpatel26/DeepLearning.ai-Summary/master/1-%20Neural%20Networks%20and%20Deep%20Learning/Images//03.png)
+  - ![alt text](image-14.png)
 - We compute the derivatives on a graph from right to left and it will be a lot more easier.
 - `dvar` means the derivatives of a final output variable with respect to various intermediate quantities.
 
 ### Logistic Regression Gradient Descent
 
-- In the video he discussed the derivatives of gradient decent example for one sample with two features `x1` and `x2`.
-  - ![](https://raw.githubusercontent.com/ashishpatel26/DeepLearning.ai-Summary/master/1-%20Neural%20Networks%20and%20Deep%20Learning/Images//04.png)
+![alt text](image-15.png)
+
+- In the video he discussed the derivatives of gradient decent example for one sample with two features `x1` and `x2` and how to go backwards to compute the derivative
+  - ![alt text](image-16.png)
+  - ![alt text](image-17.png)
 
 ### Gradient Descent on m Examples
 
@@ -256,7 +259,7 @@ To turn these pixel intensity value into a feature vector,we need to unroll all 
   ```
 
 - So we have:
-  ![](https://raw.githubusercontent.com/ashishpatel26/DeepLearning.ai-Summary/master/1-%20Neural%20Networks%20and%20Deep%20Learning/Images//09.png)
+  ![alt text](image-18.png)
 
 - Then from right to left we will calculate derivations compared to the result:
 
@@ -284,6 +287,8 @@ To turn these pixel intensity value into a feature vector,we need to unroll all 
   		dw1 += dz(i) * x1(i)
   		dw2 += dz(i) * x2(i)
   		db  += dz(i)
+
+    # take avg
   	J /= m
   	dw1/= m
   	dw2/= m
@@ -303,27 +308,34 @@ To turn these pixel intensity value into a feature vector,we need to unroll all 
 
 ### Vectorization
 
+![alt text](image-19.png)
+
 - Deep learning shines when the dataset are big. However for loops will make you wait a lot for a result. Thats why we need vectorization to get rid of some of our for loops.
 - NumPy library (dot) function is using vectorization by default.
 - The vectorization can be done on CPU or GPU thought the SIMD operation. But its faster on GPU.
 - Whenever possible avoid for loops.
+- ![alt text](image-20.png)
 - Most of the NumPy library methods are vectorized version.
 
 ### Vectorizing Logistic Regression
 
+One for loop:
+
+![alt text](image-22.png)
+
 - We will implement Logistic Regression using one for loop then without any for loop.
 - As an input we have a matrix `X` and its `[Nx, m]` and a matrix `Y` and its `[Ny, m]`.
-- We will then compute at instance `[z1,z2...zm] = W' * X + [b,b,...b]`. This can be written in python as:
-
-    		Z = np.dot(W.T,X) + b    # Vectorization, then broadcasting, Z shape is (1, m)
-    		A = 1 / 1 + np.exp(-Z)   # Vectorization, A shape is (1, m)
-
+- We will then  compute at instance `[z1,z2...zm] = W' * X + [b,b,...b]`. This can be written in python as:
+```python
+Z = np.dot(W.T,X) + b    # Vectorization, then broadcasting, Z shape is (1, m)
+A = 1 / 1 + np.exp(-Z)   # Vectorization, A shape is (1, m)
+```
 - Vectorizing Logistic Regression's Gradient Output:
-
-   			dz = A - Y                  # Vectorization, dz shape is (1, m)
-   			dw = np.dot(X, dz.T) / m    # Vectorization, dw shape is (Nx, 1)
-   			db = dz.sum() / m           # Vectorization, db shape is (1, 1)
-
+```python
+dz = A - Y                  # Vectorization, dz shape is (1, m)
+dw = np.dot(X, dz.T) / m    # Vectorization, dw shape is (Nx, 1)
+db = dz.sum() / m           # Vectorization, db shape is (1, 1)
+```
 ### Notes on Python and NumPy
 
 - In NumPy, `obj.sum(axis = 0)` sums the columns while `obj.sum(axis = 1)` sums the rows.
