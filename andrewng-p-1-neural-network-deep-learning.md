@@ -323,19 +323,49 @@ One for loop:
 
 ![alt text](image-22.png)
 
+![alt text](image-23.png)
 - We will implement Logistic Regression using one for loop then without any for loop.
 - As an input we have a matrix `X` and its `[Nx, m]` and a matrix `Y` and its `[Ny, m]`.
 - We will then  compute at instance `[z1,z2...zm] = W' * X + [b,b,...b]`. This can be written in python as:
 ```python
+# First loop
 Z = np.dot(W.T,X) + b    # Vectorization, then broadcasting, Z shape is (1, m)
-A = 1 / 1 + np.exp(-Z)   # Vectorization, A shape is (1, m)
+A = sigmoid(Z) = 1 / 1 + np.exp(-Z)   # Vectorization, A shape is (1, m)
 ```
+- As a review, instead of looping through `m` training samples to compute lowercase `z` and `a` one-by-one, we can implement `Z = np.dot(W.T,X) + b` to compute all `z` similtaneously. 
 - Vectorizing Logistic Regression's Gradient Output:
 ```python
+# Second loop
 dz = A - Y                  # Vectorization, dz shape is (1, m)
 dw = np.dot(X, dz.T) / m    # Vectorization, dw shape is (Nx, 1)
 db = dz.sum() / m           # Vectorization, db shape is (1, 1)
 ```
+- ![alt text](image-24.png)
+- With these two lines, we can compute the updated values of variables without the for loop
+
+#### Original non-vectorized Logistic Regression implementation
+
+![alt text](image-25.png)
+
+#### After vectorizing
+
+![alt text](image-26.png)
+
+### Broadcasting
+
+- Broadcasting in NumPy allows us to perform arithmetic operations on arrays of different shapes without reshaping them. It automatically adjusts the smaller array to match the larger array's shape by replicating its values along the necessary dimensions. This makes element-wise operations more efficient by reducing memory usage and eliminating the need for loops.
+- Broadcasting provides a means of vectorizing array operations so that looping occurs in C instead of Python
+
+example 1: 
+
+![alt text](image-27.png)
+
+example 2: 
+- expand a 1 by 1 vector/constant to a 4 by 1 vector
+- ![alt text](image-28.png)
+- (m,n) matrix add to (1,n) matrix, python will copy the (1,n) matrix to (m,n) matrix
+- ![alt text](image-29.png)
+
 ### Notes on Python and NumPy
 
 - In NumPy, `obj.sum(axis = 0)` sums the columns while `obj.sum(axis = 1)` sums the rows.
