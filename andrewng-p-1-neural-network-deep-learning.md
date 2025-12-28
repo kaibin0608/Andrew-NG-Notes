@@ -373,6 +373,9 @@ example 2:
 - Reshape is cheap in calculations so put it everywhere you're not sure about the calculations.
 - Broadcasting works when you do a matrix operation with matrices that doesn't match for the operation, in this case NumPy automatically makes the shapes ready for the operation by broadcasting the values.
 - In general principle of broadcasting. If you have an (m,n) matrix and you add(+) or subtract(-) or multiply(*) or divide(/) with a (1,n) matrix, then this will copy it m times into an (m,n) matrix. The same with if you use those operations with a (m , 1) matrix, then this will copy it n times into (m, n) matrix. And then apply the addition, subtraction, and multiplication of division element wise.
+
+![alt text](image-30.png)
+
 - Some tricks to eliminate all the strange bugs in the code:
   - If you didn't specify the shape of a vector, it will take a shape of `(m,)` and the transpose operation won't work. You have to reshape it to `(m, 1)`
   - Try to not use the rank one matrix in ANN
@@ -383,14 +386,14 @@ example 2:
   - To open Jupyter Notebook, open the command line and call: `jupyter-notebook` It should be installed to work.
 - To Compute the derivative of Sigmoid:
 
-  ```
+  ```python
   	s = sigmoid(x)
   	ds = s * (1 - s)       # derivative  using calculus
   ```
 
 - To make an image of `(width,height,depth)` be a vector, use this:
 
-  ```
+  ```python
   v = image.reshape(image.shape[0]*image.shape[1]*image.shape[2],1)  #reshapes the image.
   ```
 
@@ -424,6 +427,7 @@ example 2:
   X2   ==>  z = XW + B ==> a = Sigmoid(z) ==> l(a,Y)
   X3  /
   ```
+  ![alt text](image-31.png)
 
 - In neural networks with one layer we will have:
 
@@ -432,6 +436,7 @@ example 2:
   X2   =>  z1 = XW1 + B1 => a1 = Sigmoid(z1) => z2 = a1W2 + B2 => a2 = Sigmoid(z2) => l(a2,Y)
   X3  /
   ```
+![alt text](image-32.png)
 
 
 - `X` is the input vector `(X1, X2, X3)`, and `Y` is the output variable `(1x1)`
@@ -439,18 +444,26 @@ example 2:
 
 ### Neural Network Representation
 
+![alt text](image-33.png)
+
 - We will define the neural networks that has one hidden layer.
 - NN contains of input layers, hidden layers, output layers.
 - Hidden layer means we cant see that layers in the training set.
-- `a0 = x` (the input layer)
-- `a1` will represent the activation of the hidden neurons.
-- `a2` will represent the output layer.
+- $\vec{a}^{[0]} = \vec{x}$ (the input layer)
+- $\vec{a}^{[1]}$ will represent the activation of the hidden neurons.
+- $\vec{a}^{[2]}$ will represent the output layer.
 - We are talking about 2 layers NN. The input layer isn't counted.
 
 ### Computing a Neural Network's Output
 
+Node in the hidden layer:
+![alt text](image-34.png)
+- in the node, we compute $z$ and $a$, in neural network, we just does this a lot more time
+- ie: we basically compute the logistic regression of the hidden layers and the output layers
+
 - Equations of Hidden layers:
-  - ![](https://raw.githubusercontent.com/ashishpatel26/DeepLearning.ai-Summary/master/1-%20Neural%20Networks%20and%20Deep%20Learning/Images//05.png)
+  - ![alt text](image-35.png)
+  - ![alt text](image-36.png)
 - Here are some informations about the last image:
   - `noOfHiddenNeurons = 4`
   - `Nx = 3`
@@ -466,9 +479,11 @@ example 2:
 
 ### Vectorizing across multiple examples
 
+![alt text](image-37.png)
+
 - Pseudo code for forward propagation for the 2 layers NN:
 
-  ```
+  ```python 
   for i = 1 to m
     z[1, i] = W1*x[i] + b1      # shape of z[1, i] is (noOfHiddenNeurons,1)
     a[1, i] = sigmoid(z[1, i])  # shape of a[1, i] is (noOfHiddenNeurons,1)
@@ -476,24 +491,28 @@ example 2:
     a[2, i] = sigmoid(z[2, i])  # shape of a[2, i] is (1,1)
   ```
 
+![alt text](image-38.png)
+
 - Lets say we have `X` on shape `(Nx,m)`. So the new pseudo code:
 
   ```
-  Z1 = W1X + b1     # shape of Z1 (noOfHiddenNeurons,m)
+  Z1 = W1 X + b1     # shape of Z1 (noOfHiddenNeurons,m)
   A1 = sigmoid(Z1)  # shape of A1 (noOfHiddenNeurons,m)
-  Z2 = W2A1 + b2    # shape of Z2 is (1,m)
+  Z2 = W2 A1 + b2    # shape of Z2 is (1,m)
   A2 = sigmoid(Z2)  # shape of A2 is (1,m)
   ```
 
-- If you notice always m is the number of columns.
+- If you notice always `m` is the number of columns.
 - In the last example we can call `X` = `A0`. So the previous step can be rewritten as:
 
   ```
-  Z1 = W1A0 + b1    # shape of Z1 (noOfHiddenNeurons,m)
+  Z1 = W1 A0 + b1    # shape of Z1 (noOfHiddenNeurons,m)
   A1 = sigmoid(Z1)  # shape of A1 (noOfHiddenNeurons,m)
-  Z2 = W2A1 + b2    # shape of Z2 is (1,m)
+  Z2 = W2 A1 + b2    # shape of Z2 is (1,m)
   A2 = sigmoid(Z2)  # shape of A2 is (1,m)
   ```
+
+![alt text](image-39.png)
 
 ### Activation functions
 
@@ -506,16 +525,18 @@ example 2:
     `A = (np.exp(z) - np.exp(-z)) / (np.exp(z) + np.exp(-z)) # Where z is the input matrix`
 
     Or
+
     `A = np.tanh(z)   # Where z is the input matrix`
     
     ![image](https://user-images.githubusercontent.com/40623310/135577475-0b0fa892-4fb2-41f0-98bd-c382c8d46621.png)
 
-- It turns out that the tanh activation usually works better than sigmoid activation function for hidden units because the mean of its output is closer to zero, and so it centers the data better for the next layer.
-- Sigmoid or Tanh function disadvantage is that if the input is too small or too high, the slope will be near zero which will cause us the gradient decent problem.
+- It turns out that the **tanh activation** usually works better than **sigmoid activation function** for hidden units because the mean of its output is closer to zero, and so it centers the data better for the next layer.
+- Sigmoid or Tanh function **disadvantage** is that if the input is too small or too high, the slope will be near zero which will cause us the gradient decent problem.
+- ![alt text](image-40.png)
 - One of the popular activation functions that solved the slow gradient decent is the RELU function.
   `RELU = max(0,z) # so if z is negative the slope is 0 and if z is positive the slope remains linear.`
-- So here is some basic rule for choosing activation functions, if your classification is between 0 and 1, use the output activation as sigmoid and the others as RELU.
-- Leaky RELU activation function different of RELU is that if the input is negative the slope will be so small. It works as RELU but most people uses RELU.
+- So here is some basic rule for choosing activation functions, if your **classification is between 0 and 1**, use the **output activation as sigmoid** and the others as RELU.
+- **Leaky RELU activation function** different of RELU is that if the input is negative the slope will be so small. It works as RELU but most people uses RELU.
   `Leaky_RELU = max(0.01z,z)  #the 0.01 can be a parameter for your algorithm.`
 - In NN you will decide a lot of choices like:
   - No of hidden layers.
@@ -525,6 +546,8 @@ example 2:
   - And others..
 - It turns out there are no guide lines for that. You should try all activation functions for example.
 
+![alt text](image-41.png)
+
 ### Why do you need non-linear activation functions?
 
 - If we removed the activation function from our algorithm that can be called linear activation function.
@@ -533,6 +556,8 @@ example 2:
 - You might use linear activation function in one place - in the output layer if the output is real numbers (regression problem). But even in this case if the output value is non-negative you could use RELU instead.
 
 ### Derivatives of activation functions
+
+We need this to do backpropagation
 
 - Derivation of Sigmoid activation function:
 
