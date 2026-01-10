@@ -513,7 +513,7 @@ Node in the hidden layer:
   ```
 
 ![alt text](image-39.png)
-
+ 
 ### Activation functions
 
 - So far we are using sigmoid, but in some cases other functions can be a lot better.
@@ -550,16 +550,23 @@ Node in the hidden layer:
 
 ### Why do you need non-linear activation functions?
 
+![alt text](image-42.png)
+
 - If we removed the activation function from our algorithm that can be called linear activation function.
+
+![alt text](image-43.png)
+
 - Linear activation function will output linear activations
   - Whatever hidden layers you add, the activation will be always linear like logistic regression (So its useless in a lot of complex problems)
-- You might use linear activation function in one place - in the output layer if the output is real numbers (regression problem). But even in this case if the output value is non-negative you could use RELU instead.
+- You might use linear activation function in one place - in the output layer if the output is real numbers (**regression problem**). But even in this case if the output value is non-negative you could use RELU instead.
 
 ### Derivatives of activation functions
 
-We need this to do backpropagation
+We need to compute the slope of the activation function to do backpropagation
 
 - Derivation of Sigmoid activation function:
+
+![alt text](image-44.png)
 
   ```
   g(z) = 1 / (1 + np.exp(-z))
@@ -568,6 +575,8 @@ We need this to do backpropagation
   ```
 
 - Derivation of Tanh activation function:
+
+![alt text](image-45.png)
 
   ```
   g(z)  = (e^z - e^-z) / (e^z + e^-z)
@@ -591,6 +600,9 @@ We need this to do backpropagation
   ```
 
 ### Gradient descent for Neural Networks
+
+https://www.geeksforgeeks.org/machine-learning/backpropagation-in-neural-network/
+
 - In this section we will have the full back propagation of the neural network (Just the equations with no explanations).
 - Gradient descent algorithm:
   - NN parameters:
@@ -602,7 +614,7 @@ We need this to do backpropagation
     - `W2` shape is `(n[2],n[1])`
     - `b2` shape is `(n[2],1)`
   - Cost function `I =  I(W1, b1, W2, b2) = (1/m) * Sum(L(Y,A2))`
-  - Then Gradient descent:
+  - Then Gradient descent to train the parameters:
 
     ```
     Repeat:
@@ -613,13 +625,14 @@ We need this to do backpropagation
     				W2 = W2 - LearningRate * dW2
     				b2 = b2 - LearningRate * db2
     ```
+![alt text](image-46.png)
 
 - Forward propagation:
 
   ```
-  Z1 = W1A0 + b1    # A0 is X
+  Z1 = W1 A0 + b1    # A0 is X
   A1 = g1(Z1)
-  Z2 = W2A1 + b2
+  Z2 = W2 A1 + b2
   A2 = Sigmoid(Z2)      # Sigmoid because the output is between 0 and 1
   ```
 
@@ -634,32 +647,40 @@ We need this to do backpropagation
   # Hint there are transposes with multiplication because to keep dimensions correct
   ```
 - How we derived the 6 equations of the backpropagation:   
-  ![](https://raw.githubusercontent.com/ashishpatel26/DeepLearning.ai-Summary/master/1-%20Neural%20Networks%20and%20Deep%20Learning/Images//06.png)
+https://www.youtube.com/watch?v=yXcQ4B-YSjQ&list=PLkDaE6sCZn6Ec-XTbcX1uRg2_u4xOEky0&index=34
 
 ### Random Initialization
 
 - In logistic regression it wasn't important to initialize the weights randomly, while in NN we have to initialize them randomly.
 
-- If we initialize all the weights with zeros in NN it won't work (initializing bias with zero is OK):
+![alt text](image-47.png)
+
+- If we initialize all the **weights** with zeros in NN it won't work (initializing bias with zero is OK):
   - all hidden units will be completely identical (symmetric) - compute exactly the same function
   - on each gradient descent iteration all the hidden units will always update the same
 
-- To solve this we initialize the W's with a small random numbers:
+- To solve this we initialize the **W's** with a small random numbers:
 
   ```
   W1 = np.random.randn((2,2)) * 0.01    # 0.01 to make it small enough
   b1 = np.zeros((2,1))                  # its ok to have b as zero, it won't get us to the symmetry breaking problem
   ```
 
-- We need small values because in sigmoid (or tanh), for example, if the weight is too large you are more likely to end up even at the very start of training with very large values of Z. Which causes your tanh or your sigmoid activation function to be saturated, thus slowing down learning. If you don't have any sigmoid or tanh activation functions throughout your neural network, this is less of an issue.
+![alt text](image-48.png)
 
-- Constant 0.01 is alright for 1 hidden layer networks, but if the NN is deep this number can be changed but it will always be a small number.
+- We need small values because in **sigmoid** (or **tanh**), for example, if the weight is too large you are more likely to end up even at the very start of training with very large values of Z. Which causes your **tanh** or your **sigmoid** activation function to be **saturated**(at the flat part), thus **slowing down learning**. If you don't have any sigmoid or tanh activation functions throughout your neural network, this is less of an issue.
+
+- Constant 0.01 is alright for 1 hidden layer networks, but if the NN is deep this number can be changed but it will **always be a small number**.
 
 ## Deep Neural Networks
+
+![alt text](image-49.png)
 
 > Understand the key computations underlying deep learning, use them to build and train deep neural networks, and apply it to computer vision.
 
 ### Deep L-layer neural network
+
+![alt text](image-50.png)
 
 - Shallow NN is a NN with one or two layers.
 - Deep NN is a NN with three or more layers.
@@ -669,7 +690,7 @@ We need this to do backpropagation
 - `g[l]` is the activation function.
 - `a[l] = g[l](z[l])`
 - `w[l]` weights is used for `z[l]`
-- `x = a[0]`, `a[l] = y'`
+- `x = a[0]`, `a[L] = y'`
 - These were the notation we will use for deep neural network.
 - So we have:
   - A vector `n` of shape `(1, NoOfLayers+1)`
@@ -679,6 +700,8 @@ We need this to do backpropagation
 
 ### Forward Propagation in a Deep Network
 
+![alt text](image-51.png)
+
 - Forward propagation general rule for one input:
 
   ```
@@ -687,6 +710,8 @@ We need this to do backpropagation
   ```
 
 - Forward propagation general rule for `m` inputs:
+
+![alt text](image-52.png)
 
   ```
   Z[l] = W[l]A[l-1] + B[l]
