@@ -731,7 +731,9 @@ https://www.youtube.com/watch?v=yXcQ4B-YSjQ&list=PLkDaE6sCZn6Ec-XTbcX1uRg2_u4xOE
 
 ### Why deep representations?
 
-- Why deep NN works well, we will discuss this question in this section.
+![alt text](image-53.png)
+
+-**Why deep NN works well**, we will discuss this question in this section.
 - Deep NN makes relations with data from simpler to complex. In each layer it tries to make a relation with the previous layer. E.g.:
   - 1) Face recognition application:
       - Image ==> Edges ==> Face parts ==> Faces ==> desired face
@@ -739,8 +741,9 @@ https://www.youtube.com/watch?v=yXcQ4B-YSjQ&list=PLkDaE6sCZn6Ec-XTbcX1uRg2_u4xOE
       - Audio ==> Low level sound features like (sss,bb) ==> Phonemes ==> Words ==> Sentences
 - Neural Researchers think that deep neural networks "think" like brains (simple ==> complex)
 - Circuit theory and deep learning:
-  - ![](https://raw.githubusercontent.com/ashishpatel26/DeepLearning.ai-Summary/master/1-%20Neural%20Networks%20and%20Deep%20Learning/Images//07.png)
-- When starting on an application don't start directly by dozens of hidden layers. Try the simplest solutions (e.g. Logistic Regression), then try the shallow neural network and so on.
+  - ![alt text](image-54.png)
+  - means "small"(less number of hidden units) layered network is better than shallow networks(less layers but more hidden units)
+- When starting on an application don't start directly by dozens of hidden layers. **Try the simplest solutions (e.g. Logistic Regression)**, then try the shallow neural network and so on.
 
 ### Building blocks of deep neural networks
 
