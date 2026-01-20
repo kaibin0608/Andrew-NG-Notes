@@ -789,11 +789,16 @@ https://www.youtube.com/watch?v=yXcQ4B-YSjQ&list=PLkDaE6sCZn6Ec-XTbcX1uRg2_u4xOE
   - Number of hidden layers `L`.
   - Number of hidden units `n`.
   - Choice of activation functions.
+
+![alt text](image-55.png)
+
 - You have to try values yourself of hyper parameters.
 - In the earlier days of DL and ML learning rate was often called a parameter, but it really is (and now everybody call it) a hyperparameter.
 - On the next course we will see how to optimize hyperparameters.
 
 ### What does this have to do with the brain
+
+![alt text](image-56.png)
 
 - The analogy that "It is like the brain" has become really an oversimplified explanation.
 - There is a very simplistic analogy between a single logistic unit and a single neuron in the brain.
