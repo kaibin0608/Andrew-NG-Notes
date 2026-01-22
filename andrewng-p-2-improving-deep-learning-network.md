@@ -142,13 +142,7 @@ Here are the course summary as its given on the course [link](https://www.course
 
 ### Regularization
 
-- Adding regularization to NN will help it reduce variance (overfitting)
-- L1 matrix norm:
-  
-  - `||W|| = Sum(|w[i,j]|)  # sum of absolute values of all w`
-- L2 matrix norm because of arcane technical math reasons is called Frobenius norm: (more commonly used)
-  - `||W||^2 = Sum(|w[i,j]|^2)	# sum of all w squared`
-  - Also can be calculated as `||W||^2 = W.T * W`
+![alt text](image-63.png)
 - Regularization for logistic regression:
   - The normal cost function that we want to minimize is: `J(w,b) = (1/m) * Sum(L(y(i),y'(i)))`
   - The L2 regularization version: `J(w,b) = (1/m) * Sum(L(y(i),y'(i))) + (lambda/2m) * Sum(|w[i]|^2)`
@@ -156,17 +150,26 @@ Here are the course summary as its given on the course [link](https://www.course
   - The L1 regularization version makes a lot of w values become zeros, which makes the model size smaller.
   - L2 regularization is being used much more often.
   - `lambda` here is the regularization parameter (hyperparameter)
+
+
 - Regularization for NN:
   - The normal cost function that we want to minimize is:   
     `J(W1,b1...,WL,bL) = (1/m) * Sum(L(y(i),y'(i)))`
 
   - The L2 regularization version:   
     `J(w,b) = (1/m) * Sum(L(y(i),y'(i))) + (lambda/2m) * Sum((||W[l]||^2)`
+    - Adding regularization to NN will help it reduce variance (overfitting)
+      - L1 matrix norm:
+        - `||W|| = Sum(|w[i,j]|)  # sum of absolute values of all w`
+      - L2 matrix norm because of arcane technical math reasons is called Frobenius norm: 
+        - `||W||^2 = Sum(|w[i,j]|^2)	# sum of all w squared`
+        - Also can be calculated as `||W||^2 = W.T * W`
 
   - We stack the matrix as one vector `(mn,1)` and then we apply `sqrt(w1^2 + w2^2.....)`
 
   - To do back propagation (old way):   
     `dw[l] = (from back propagation)`
+    `w[l] = w[l] - lambda dw[l]`
 
   - The new way:   
     `dw[l] = (from back propagation) + lambda/m * w[l]`
