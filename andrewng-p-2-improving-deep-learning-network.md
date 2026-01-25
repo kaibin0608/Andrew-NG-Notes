@@ -77,9 +77,14 @@ Here are the course summary as its given on the course [link](https://www.course
 
 ### Train / Dev / Test sets
 
+![alt text](image-57.png)
+
 - Its impossible to get all your hyperparameters right on a new application from the first time.
 - So the idea is you go through the loop: `Idea ==> Code ==> Experiment`.
 - You have to go through the loop many times to figure out your hyperparameters.
+
+![alt text](image-58.png)
+
 - Your data will be split into three parts:
   - Training set.       (Has to be the largest set)
   - Hold-out cross validation set / Development or "dev" set.
@@ -90,7 +95,7 @@ Here are the course summary as its given on the course [link](https://www.course
   - If size of the  dataset is 1000000  to INF  ==> 98/1/1 or  99.5/0.25/0.25
 - The trend now gives the training data the biggest sets.
 - Make sure the dev and test set are coming from the same distribution.
-  - For example if cat training pictures is from the web and the dev/test pictures are from users cell phone they will mismatch. It is better to make sure that dev and test set are from the same distribution.
+  - For example if cat training pictures is from the web and the dev/test pictures are from users cell phone they will mismatch. (pictures from the web might have higher resolution compare to pictures from the app). It is better to make sure that dev and test set are from the same distribution.
 - The dev set rule is to try them on some of the good models you've created.
 - Its OK to only have a dev set without a testing set. But a lot of people in this case call the dev set as the test set. A better terminology is to call it a dev set as its used in the development.
 
@@ -102,7 +107,7 @@ Here are the course summary as its given on the course [link](https://www.course
   - If your model is overfitting then it has a "high variance"
   - Your model will be alright if you balance the Bias / Variance
   - For more:
-    - ![](https://raw.githubusercontent.com/ashishpatel26/DeepLearning.ai-Summary/master/2-%20Improving%20Deep%20Neural%20Networks/Images//01-_Bias_-_Variance.png)
+    - ![alt text](image-59.png)
 - Another idea to get the bias /  variance if you don't have a 2D plotting mechanism:
   - High variance (overfitting) for example:
     - Training error: 1%
@@ -113,6 +118,8 @@ Here are the course summary as its given on the course [link](https://www.course
   - high Bias (underfitting) && High variance (overfitting) for example:
     - Training error: 15%
     - Test error: 30%
+    - ![alt text](image-60.png)
+    - high bias because the classifier doesn't fit the data at the bottom left, high variance because it has too much flexibility at the middle
   - Best:
     - Training error: 0.5%
     - Test error: 1%
@@ -135,13 +142,7 @@ Here are the course summary as its given on the course [link](https://www.course
 
 ### Regularization
 
-- Adding regularization to NN will help it reduce variance (overfitting)
-- L1 matrix norm:
-  
-  - `||W|| = Sum(|w[i,j]|)  # sum of absolute values of all w`
-- L2 matrix norm because of arcane technical math reasons is called Frobenius norm:
-  - `||W||^2 = Sum(|w[i,j]|^2)	# sum of all w squared`
-  - Also can be calculated as `||W||^2 = W.T * W`
+![alt text](image-63.png)
 - Regularization for logistic regression:
   - The normal cost function that we want to minimize is: `J(w,b) = (1/m) * Sum(L(y(i),y'(i)))`
   - The L2 regularization version: `J(w,b) = (1/m) * Sum(L(y(i),y'(i))) + (lambda/2m) * Sum(|w[i]|^2)`
@@ -149,17 +150,26 @@ Here are the course summary as its given on the course [link](https://www.course
   - The L1 regularization version makes a lot of w values become zeros, which makes the model size smaller.
   - L2 regularization is being used much more often.
   - `lambda` here is the regularization parameter (hyperparameter)
+
+
 - Regularization for NN:
   - The normal cost function that we want to minimize is:   
     `J(W1,b1...,WL,bL) = (1/m) * Sum(L(y(i),y'(i)))`
 
   - The L2 regularization version:   
     `J(w,b) = (1/m) * Sum(L(y(i),y'(i))) + (lambda/2m) * Sum((||W[l]||^2)`
+    - Adding regularization to NN will help it reduce variance (overfitting)
+      - L1 matrix norm:
+        - `||W|| = Sum(|w[i,j]|)  # sum of absolute values of all w`
+      - L2 matrix norm because of arcane technical math reasons is called Frobenius norm: 
+        - `||W||^2 = Sum(|w[i,j]|^2)	# sum of all w squared`
+        - Also can be calculated as `||W||^2 = W.T * W`
 
   - We stack the matrix as one vector `(mn,1)` and then we apply `sqrt(w1^2 + w2^2.....)`
 
   - To do back propagation (old way):   
     `dw[l] = (from back propagation)`
+    `w[l] = w[l] - lambda dw[l]`
 
   - The new way:   
     `dw[l] = (from back propagation) + lambda/m * w[l]`
@@ -180,13 +190,17 @@ Here are the course summary as its given on the course [link](https://www.course
 
 ### Why regularization reduces overfitting?
 
+![alt text](image-61.png)
+
 Here are some intuitions:
   - Intuition 1:
      - If `lambda` is too large - a lot of w's will be close to zeros which will make the NN simpler (you can think of it as it would behave closer to logistic regression).
      - If `lambda` is good enough it will just reduce some weights that makes the neural network overfit.
   - Intuition 2 (with _tanh_ activation function):
      - If `lambda` is too large, w's will be small (close to zero) - will use the linear part of the _tanh_ activation function, so we will go from non linear activation to _roughly_ linear which would make the NN a _roughly_ linear classifier.
-     - If `lambda` good enough it will just make some of _tanh_ activations _roughly_ linear which will prevent overfitting.
+
+     ![alt text](image-62.png)
+     - If `lambda` good enough it will just make some of _tanh_ activations _roughly_ linear which will prevent overfitting because `z` is small when `w` is small.
      
 
 _**Implementation tip**_: if you implement gradient descent, one of the steps to debug gradient descent is to plot the cost function J as a function of the number of iterations of gradient descent and you want to see that the cost function J decreases **monotonically** after every elevation of gradient descent with regularization. If you plot the old definition of J (no regularization) then you might not see it decrease monotonically.
