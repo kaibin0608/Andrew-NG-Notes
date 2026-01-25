@@ -748,9 +748,9 @@ https://www.youtube.com/watch?v=yXcQ4B-YSjQ&list=PLkDaE6sCZn6Ec-XTbcX1uRg2_u4xOE
 ### Building blocks of deep neural networks
 
 - Forward and back propagation for a layer l:
-  - ![Untitled](https://raw.githubusercontent.com/ashishpatel26/DeepLearning.ai-Summary/master/1-%20Neural%20Networks%20and%20Deep%20Learning/Images//10.png)
+  - ![alt text](image-56.png)
 - Deep NN blocks:
-  - ![](https://raw.githubusercontent.com/ashishpatel26/DeepLearning.ai-Summary/master/1-%20Neural%20Networks%20and%20Deep%20Learning/Images//08.png)
+  - ![alt text](image-55.png)
 
 ### Forward and Backward Propagation
 
@@ -758,23 +758,29 @@ https://www.youtube.com/watch?v=yXcQ4B-YSjQ&list=PLkDaE6sCZn6Ec-XTbcX1uRg2_u4xOE
 
   ```
   Input  A[l-1]
+
   Z[l] = W[l]A[l-1] + b[l]
   A[l] = g[l](Z[l])
+
   Output A[l], cache(Z[l])
+
   ```
 
-- Pseudo  code for back propagation for layer l:
+- Pseudo code for back propagation for layer l:
 
   ```
   Input da[l], Caches
+  
   dZ[l] = dA[l] * g'[l](Z[l])
   dW[l] = (dZ[l]A[l-1].T) / m
   db[l] = sum(dZ[l])/m                # Dont forget axis=1, keepdims=True
   dA[l-1] = w[l].T * dZ[l]            # The multiplication here are a dot product.
+
   Output dA[l-1], dW[l], db[l]
   ```
 
 - If we have used our loss function then:
+![alt text](image-57.png)
 
   ```
   dA[L] = (-(y/a) + ((1-y)/(1-a)))
