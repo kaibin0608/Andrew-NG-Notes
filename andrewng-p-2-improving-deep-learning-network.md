@@ -208,9 +208,13 @@ _**Implementation tip**_: if you implement gradient descent, one of the steps to
 
 ### Dropout Regularization
 
+![alt text](image-64.png)
+
 - In most cases Andrew Ng tells that he uses the L2 regularization.
 - The dropout regularization eliminates some neurons/weights on each iteration based on a probability.
 - A most common technique to implement dropout is called "Inverted dropout".
+- In Inverted Dropout, instead of scaling the activations during inference, we scale them during training by dividing each neuron’s activation by the keep probability (1 - dropout rate). This ensures that the expected output of neurons remains consistent across training and inference phases.
+- https://www.linkedin.com/pulse/understanding-inverted-dropout-why-matters-your-rangarajan-a6a0e/
 - Code for Inverted dropout:
 
   ```python
@@ -230,24 +234,34 @@ _**Implementation tip**_: if you implement gradient descent, one of the steps to
 
 ### Understanding Dropout
 
-- In the previous video, the intuition was that dropout randomly knocks out units in your network. So it's as if on every iteration you're working with a smaller NN, and so using a smaller NN seems like it should have a regularizing effect.
+- In the previous video, the intuition was that **dropout randomly knocks out units in your network**. So it's as if on every iteration you're working with a smaller NN, and so using a smaller NN seems like it should have a regularizing effect.
 - Another intuition: can't rely on any one feature, so have to spread out weights.
 - It's possible to show that dropout has a similar effect to L2 regularization.
+
+![alt text](image-65.png)
+
 - Dropout can have different `keep_prob` per layer.
 - The input layer dropout has to be near 1 (or 1 - no dropout) because you don't want to eliminate a lot of features.
-- If you're more worried about some layers overfitting than others, you can set a lower `keep_prob` for some layers than others. The downside is, this gives you even more hyperparameters to search for using cross-validation. One other alternative might be to have some layers where you apply dropout and some layers where you don't apply dropout and then just have one hyperparameter, which is a `keep_prob` for the layers for which you do apply dropouts.
-- A lot of researchers are using dropout with Computer Vision (CV) because they have a very big input size and almost never have enough data, so overfitting is the usual problem. And dropout is a regularization technique to prevent overfitting.
-- A downside of dropout is that the cost function J is not well defined and it will be hard to debug (plot J by iteration).
+- If you're more worried about some layers overfitting than others, you can set a lower `keep_prob` for some layers than others. The downside is, this **gives you even more hyperparameters to search for using cross-validation**. One other alternative might be to have some layers where you apply dropout and some layers where you don't apply dropout and then just have one hyperparameter, which is a `keep_prob` for the layers for which you do apply dropouts.
+- A lot of researchers are using dropout with **Computer Vision** (CV) because they have a very big input size and almost never have enough data, so overfitting is the usual problem. And dropout is a regularization technique to prevent overfitting.
+- A downside of dropout is that **the cost function J is not well defined and it will be hard to debug** (plot J by iteration).
   - To solve that you'll need to turn off dropout, set all the `keep_prob`s to 1, and then run the code and check that it monotonically decreases J and then turn on the dropouts again.
 
 ### Other regularization methods
+
+Sometimes getting more data is very expensive, what we can do is:
+
+![alt text](image-66.png)
 
 - **Data augmentation**:
   - For example in a computer vision data:
     - You can flip all your pictures horizontally this will give you m more data instances.
     - You could also apply a random position and rotation to an image to get more data.
   - For example in OCR, you can impose random rotations and distortions to digits/letters.
-  - New data obtained using this technique isn't as good as the real independent data, but still can be used as a regularization technique.
+  - New data obtained using this technique isn't as good as the real independent data, but still can be used as a regularization technique. (but is an inexpensive way to get new data)
+
+![alt text](image-67.png)
+
 - **Early stopping**:
   - In this technique we plot the training set and the dev set cost together for each iteration. At some iteration the dev set cost will stop decreasing and will start increasing.
   - We will pick the point at which the training set error and dev set error are best (lowest training cost with lowest dev cost).
