@@ -323,7 +323,7 @@ Sometimes getting more data is very expensive, what we can do is:
 
 - A partial solution to the Vanishing / Exploding gradients in NN is better or more careful choice of the random initialization of weights
 - In a single neuron (Perceptron model): `Z = w1x1 + w2x2 + ... + wnxn`
-  
+  ![alt text](image-68.png)
   - So if `n_x` is large we want `W`'s to be smaller to not explode the cost.
 - So it turns out that we need the variance which equals `1/n_x` to be the range of `W`'s
 - So lets say when we initialize `W`'s like this (better to use with `tanh` activation):   
