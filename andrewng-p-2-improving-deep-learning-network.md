@@ -346,8 +346,13 @@ Sometimes getting more data is very expensive, what we can do is:
 
 - There is an technique called gradient checking which tells you if your implementation of backpropagation is correct.
 - There's a numerical way to calculate the derivative:   
-  ![](https://raw.githubusercontent.com/ashishpatel26/DeepLearning.ai-Summary/master/2-%20Improving%20Deep%20Neural%20Networks/Images//03-_Numerical_approximation_of_gradients.png)
+  
+![alt text](image-69.png)
+
 - Gradient checking approximates the gradients and is very helpful for finding the errors in your backpropagation implementation but it's slower than gradient descent (so use only for debugging).
+
+![alt text](image-70.png)
+
 - Implementation of this is very simple.
 - Gradient checking:
   - First take `W[1],b[1],...,W[L],b[L]` and reshape into one big vector (`theta`)
@@ -359,7 +364,7 @@ Sometimes getting more data is very expensive, what we can do is:
     for i in len(theta):
       d_theta_approx[i] = (J(theta1,...,theta[i] + eps) -  J(theta1,...,theta[i] - eps)) / 2*eps
     ```
-  - Finally we evaluate this formula `(||d_theta_approx - d_theta||) / (||d_theta_approx||+||d_theta||)` (`||` - Euclidean vector norm) and check (with eps = 10^-7):
+  - Finally we evaluate this formula `(||d_theta_approx - d_theta||) / (||d_theta_approx||+||d_theta||)` (`||` - Euclidean vector norm/ Euclidean distance ) and check (with eps = 10^-7):
     - if it is < 10^-7  - great, very likely the backpropagation implementation is correct
     - if around 10^-5   - can be OK, but need to inspect if there are no particularly big values in `d_theta_approx - d_theta` vector
     - if it is >= 10^-3 - bad, probably there is a bug in backpropagation implementation
@@ -369,8 +374,8 @@ Sometimes getting more data is very expensive, what we can do is:
 - Don't use the gradient checking algorithm at training time because it's very slow.
 - Use gradient checking only for debugging.
 - If algorithm fails grad check, look at components to try to identify the bug.
-- Don't forget to add `lamda/(2m) * sum(W[l])` to `J` if you are using L1 or L2 regularization.
-- Gradient checking doesn't work with dropout because J is not consistent. 
+- Don't forget to add `lamda/(2m) * sum(W[l])` to `J` if you are using L1 or L2 regularization. (regularization term)
+- Gradient checking doesn't work with dropout because J is not consistent, dropout is randomly eliminating . 
   - You can first turn off dropout (set `keep_prob = 1.0`), run gradient checking and then turn on dropout again.
 - Run gradient checking at random initialization and train the network for a while maybe there's a bug which can be seen when w's and b's become larger (further from 0) and can't be seen on the first iteration (when w's and b's are very small).
 
@@ -419,6 +424,8 @@ Implications of L2-regularization on:
 
 ### Mini-batch gradient descent
 
+![alt text](image-71.png)
+
 - Training NN with a large data is slow. So to find an optimization algorithm that runs faster is a good idea.
 - Suppose we have `m = 50 million`. To train this data it will take a huge processing time for one step.
   
@@ -433,15 +440,18 @@ Implications of L2-regularization on:
 - So the definition of mini batches ==> `t: X{t}, Y{t}`
 - In **Batch gradient descent** we run the gradient descent on the whole dataset.
 - While in **Mini-Batch gradient descent** we run the gradient descent on the mini datasets.
+
+![alt text](image-72.png)
+
 - Mini-Batch algorithm pseudo code:
   ```
   for t = 1:No_of_batches                         # this is called an epoch
-  	AL, caches = forward_prop(X{t}, Y{t})
-  	cost = compute_cost(AL, Y{t})
-  	grads = backward_prop(AL, caches)
+  	A[L], caches = forward_prop(X{t}, Y{t})
+  	cost = compute_cost(A[L], Y{t})
+  	grads = backward_prop(A[L], caches)
   	update_parameters(grads)
   ```
-- The code inside an epoch should be vectorized.
+- The code inside an epoch(means a single pass through training set) should be vectorized.
 - Mini-batch gradient descent works much faster in the large datasets.
 
 ### Understanding mini-batch gradient descent
